@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Urban Population percentage</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Urban Population percentage">
+  <meta name="author" content="Edward Lewis">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/default.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Urban Population percentage</h1>
+    <h2>by US State</h2>
+    <p>Edward Lewis<br/>Developing Data Products Coursera course</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Urban Population percentages for US States - 1973</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Shiny App to display Urban Population Percentage that match users input within tolerance level</li>
+<li>Returns the US States that are within the tolerance range of the selected Urban population percentage</li>
+<li>Allows for adjustable tolerance level (0 thru 10)
+
+<ul>
+<li>0 equals exact match based on input</li>
+<li>up to 10 percentages on either end of input value</li>
+</ul></li>
+<li>Also calculates the Percentile of the users input value</li>
+<li>Uses R Dataset USArrests  -  <code>data(USArrests)</code>
+
+<ul>
+<li>Source: Statistical Abstracts of the United States 1975</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>The Shiny App for Percentage of Urban Population</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Link to the <a href="https://edlewis4.shinyapps.io/course_project/">Shiny App for Percentage of Urban Population</a><br></li>
+<li>Screenshot:
+<img src="./shinyApp-pic.png" alt="ShinyApp"></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>A look at the code behind the Application</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Sample of the code that determines the states &amp; percentiles with default input at 75 and a tolerance level of 1</li>
+</ul>
+
+<pre><code class="r">data(USArrests)
+DF &lt;- cbind(State = rownames(USArrests), USArrests)
+DF$State &lt;- as.vector(DF$State)
+
+urbanPop_pct &lt;- function(urbanPop,tolerance) {
+        matched &lt;- find.matches(DF$UrbanPop,urbanPop,tol=tolerance) 
+        matchlogic &lt;- as.logical(matched$matches)
+        print(arrange(DF[matchlogic == TRUE,c(1,4)],UrbanPop),row.names=FALSE)
+        }
+urbanPop_pct(75,1)
+</code></pre>
+
+<pre><code>##     State UrbanPop
+##  Michigan       74
+##      Ohio       75
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Google Chart Map</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>GoogleCharts map showing the Urban Population Percentage by State</li>
+<li>Hover over a State to see its percentage of Urban Population in 1973</li>
+</ul>
+
+<!-- GeoChart generated in R 3.1.1 by googleVis 0.5.8 package -->
+
+<!-- Sat May 23 18:49:46 2015 -->
+
+<!-- jsHeader -->
+
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID1264217de2c7 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Alabama",
+58 
+],
+[
+ "Alaska",
+48 
+],
+[
+ "Arizona",
+80 
+],
+[
+ "Arkansas",
+50 
+],
+[
+ "California",
+91 
+],
+[
+ "Colorado",
+78 
+],
+[
+ "Connecticut",
+77 
+],
+[
+ "Delaware",
+72 
+],
+[
+ "Florida",
+80 
+],
+[
+ "Georgia",
+60 
+],
+[
+ "Hawaii",
+83 
+],
+[
+ "Idaho",
+54 
+],
+[
+ "Illinois",
+83 
+],
+[
+ "Indiana",
+65 
+],
+[
+ "Iowa",
+57 
+],
+[
+ "Kansas",
+66 
+],
+[
+ "Kentucky",
+52 
+],
+[
+ "Louisiana",
+66 
+],
+[
+ "Maine",
+51 
+],
+[
+ "Maryland",
+67 
+],
+[
+ "Massachusetts",
+85 
+],
+[
+ "Michigan",
+74 
+],
+[
+ "Minnesota",
+66 
+],
+[
+ "Mississippi",
+44 
+],
+[
+ "Missouri",
+70 
+],
+[
+ "Montana",
+53 
+],
+[
+ "Nebraska",
+62 
+],
+[
+ "Nevada",
+81 
+],
+[
+ "New Hampshire",
+56 
+],
+[
+ "New Jersey",
+89 
+],
+[
+ "New Mexico",
+70 
+],
+[
+ "New York",
+86 
+],
+[
+ "North Carolina",
+45 
+],
+[
+ "North Dakota",
+44 
+],
+[
+ "Ohio",
+75 
+],
+[
+ "Oklahoma",
+68 
+],
+[
+ "Oregon",
+67 
+],
+[
+ "Pennsylvania",
+72 
+],
+[
+ "Rhode Island",
+87 
+],
+[
+ "South Carolina",
+48 
+],
+[
+ "South Dakota",
+45 
+],
+[
+ "Tennessee",
+59 
+],
+[
+ "Texas",
+80 
+],
+[
+ "Utah",
+80 
+],
+[
+ "Vermont",
+32 
+],
+[
+ "Virginia",
+63 
+],
+[
+ "Washington",
+73 
+],
+[
+ "West Virginia",
+39 
+],
+[
+ "Wisconsin",
+66 
+],
+[
+ "Wyoming",
+60 
+] 
+];
+data.addColumn('string','State');
+data.addColumn('number','UrbanPop');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID1264217de2c7() {
+var data = gvisDataGeoChartID1264217de2c7();
+var options = {};
+options["width"] =    400;
+options["height"] =    400;
+options["region"] = "US";
+options["resolution"] = "provinces";
+options["backgroundColor"] = "#81d4fa";
+options["datalessRegionColor"] = "#f5f5f5";
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID1264217de2c7')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID1264217de2c7);
+})();
+function displayChartGeoChartID1264217de2c7() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+
+<!-- jsChart -->  
+
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID1264217de2c7"></script>
+ 
+
+<!-- divChart -->
+
+<div id="GeoChartID1264217de2c7" 
+  style="width: 400; height: 400;">
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Urban Population percentages for US States - 1973'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The Shiny App for Percentage of Urban Population'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='A look at the code behind the Application'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Google Chart Map'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
